@@ -7,10 +7,10 @@ using namespace Eigen;
 class Mat
 {
 public:
-	// ±©Â¶Êı¾İÒÔÖ§³ÖÔ­Éú²Ù×÷
+	// æš´éœ²æ•°æ®ä»¥æ”¯æŒåŸç”Ÿæ“ä½œ
 	MatrixXd data;
 
-	// ¹¹Ôì¡¢Îö¹¹
+	// æ„é€ ã€ææ„
 	Mat();
 	Mat(const int row, const int col);
 	explicit Mat(const MatrixXd &matData);
@@ -18,30 +18,30 @@ public:
 	explicit Mat(const vector<vector<double>> &vetData);
 	virtual ~Mat();
 
-	// ÔËËã·ûÖØÔØ
+	// è¿ç®—ç¬¦é‡è½½
 	double operator()(const int i);
 	double operator()(const int i, const int j);
 	Mat& operator=(const Mat& mat_);
 
-	// ÏÔÊ¾¡¢¶ÁÈ¡¡¢±£´æ
+	// æ˜¾ç¤ºã€è¯»å–ã€ä¿å­˜
 	static void show(Mat &mat, int precision = 3);
 	static void show(MatrixXd &data, int precision = 3);
 	void show(int precision = 3);
 
-	// »ù±¾²Ù×÷
+	// åŸºæœ¬æ“ä½œ
 	unsigned int size() const;
 	unsigned int rows() const;
 	unsigned int cols() const;
 	void resize(const int row, const int col);
 	void fill(const double value);
 
-	// È¡Ä³ĞĞ\Ä³ÁĞ
+	// å–æŸè¡Œ\æŸåˆ—
 
-	// ºÏ²¢¾ØÕó
+	// åˆå¹¶çŸ©é˜µ
 	bool mergeRow(Mat &addMat);
 	bool mergeCol(Mat &addMat);
 
-	// ¾ØÕó»ù±¾ÔËËã + - * k* ×ªÖÃ Äæ ĞĞÁĞÊ½
+	// çŸ©é˜µåŸºæœ¬è¿ç®— + - * k* è½¬ç½® é€† è¡Œåˆ—å¼
 	bool add(Mat &addMat);
 	bool sub(Mat &addMat);
 	bool mul(Mat &addMat);
@@ -50,8 +50,8 @@ public:
 	Mat inv() const;
 	double det() const;
 
-	// Í³¼ÆĞÅÏ¢ ×î´óÖµ¡¢×îĞ¡Öµ¡¢Æ½¾ùÖµ
+	// ç»Ÿè®¡ä¿¡æ¯ æœ€å¤§å€¼ã€æœ€å°å€¼ã€å¹³å‡å€¼
 
-	// ²âÊÔ
+	// æµ‹è¯•
 	static void test();
 };

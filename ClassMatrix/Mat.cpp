@@ -1,11 +1,11 @@
 /**
- * ½¯·½Õı·â×°µÄMatÀà
+ * è’‹æ–¹æ­£å°è£…çš„Matç±»
+ * 2017-09-02
  */
 #include "Mat.h"
 #include <iostream>
 #include <iomanip>
 #include <valarray>
-
 
 Mat::Mat()
 {
@@ -50,7 +50,6 @@ Mat::Mat(const vector<vector<double>> &vetData)
 		}
 	}
 }
-
 
 Mat::~Mat()
 {
@@ -221,7 +220,7 @@ void Mat::show(MatrixXd& data, int precision)
 
 void Mat::test()
 {
-	cout << "¹¹Ôì¡¢Îö¹¹" << endl;
+	cout << "æ„é€ ã€ææ„" << endl;
 	Mat A;
 	A.show();
 	cout << endl;
@@ -251,8 +250,8 @@ void Mat::test()
 	E.show();
 	cout << endl;
 
-	cout << "ÔËËã·ûÖØÔØ" << endl;
-	// µ¥¸öÊÇĞĞµÄ¿ªÍ·ÔªËØ£¬Ë«¸öÊÇÊı×éÏÂ±ê
+	cout << "è¿ç®—ç¬¦é‡è½½" << endl;
+	// å•ä¸ªæ˜¯è¡Œçš„å¼€å¤´å…ƒç´ ï¼ŒåŒä¸ªæ˜¯æ•°ç»„ä¸‹æ ‡
 	cout << D(0) << " " << D(1) << " " << D(1, 1) << " " << D(2, 2) << endl << endl;
 	Mat Dcopy;
 	Dcopy.fill(0);
@@ -262,13 +261,13 @@ void Mat::test()
 	Dcopy.show();
 	cout << endl;
 
-	cout << "ÏÔÊ¾¡¢¶ÁÈ¡¡¢±£´æ" << endl;
+	cout << "æ˜¾ç¤ºã€è¯»å–ã€ä¿å­˜" << endl;
 	show(inputXd);
 	cout << endl;
 	show(D);
 	cout << endl;
 
-	cout << "»ù±¾²Ù×÷" << endl;
+	cout << "åŸºæœ¬æ“ä½œ" << endl;
 	cout << "C.size() " << C.size() << endl;
 	cout << "C.rows() " << C.rows() << endl;
 	cout << "C.cols() " << C.cols() << endl;
@@ -278,9 +277,9 @@ void Mat::test()
 	C.fill(7);
 	C.show();
 
-	cout << "È¡Ä³ĞĞÄ³ÁĞ" << endl;
+	cout << "å–æŸè¡ŒæŸåˆ—" << endl;
 
-	cout << "ºÏ²¢¾ØÕó" << endl;
+	cout << "åˆå¹¶çŸ©é˜µ" << endl;
 	Mat F(inputXd);
 	cout << "F.mergeRow(D)" << endl;
 	F.show();
@@ -299,7 +298,7 @@ void Mat::test()
 	C.show();
 	cout << endl;
 
-	cout << "¾ØÕó»ù±¾ÔËËã + - * k* ×ªÖÃ Äæ ĞĞÁĞÊ½" << endl;
+	cout << "çŸ©é˜µåŸºæœ¬è¿ç®— + - * k* è½¬ç½® é€† è¡Œåˆ—å¼" << endl;
 	vector<vector<double>> vecData1{ { 1,2,3 },{ 4,5,6 },{ 7,8,9 } };
 	Mat H(vecData1);
 	H.add(D);
