@@ -1,11 +1,12 @@
 /**
- * è’‹æ–¹æ­£å°è£…çš„Matç±»
- * 2017-09-02
- */
+* ½¯·½Õı·â×°µÄMatÀà
+* 2017-09-02
+*/
 #include "Mat.h"
 #include <iostream>
 #include <iomanip>
 #include <valarray>
+#include <fstream>
 
 Mat::Mat()
 {
@@ -98,6 +99,29 @@ void Mat::fill(const double value)
 	data.fill(value);
 }
 
+Mat Mat::getRow(unsigned int row) const
+{
+	Mat temp;
+	temp.resize(1, data.cols());
+	for (int i = 0; i < data.cols(); ++i)
+	{
+		temp.data(0, i) = data(row, i);
+	}
+	return temp;
+}
+
+Mat Mat::getCol(unsigned int col) const
+{
+	Mat temp;
+	temp.resize(data.rows(), 1);
+	for (int i = 0; i < data.rows(); ++i)
+	{
+		temp.data(i, 0) = data(i, col);
+	}
+	return temp;
+}
+
+
 bool Mat::mergeRow(Mat& addMat)
 {
 	if (data.cols() == addMat.cols())
@@ -106,7 +130,7 @@ bool Mat::mergeRow(Mat& addMat)
 		Mat temp2(addMat);
 		data.resize(data.rows() + addMat.rows(), data.cols());
 		data << temp1.data,
-				temp2.data;
+			temp2.data;
 		return true;
 	}
 	return false;
@@ -164,7 +188,7 @@ Mat Mat::t() const
 
 Mat Mat::inv() const
 {
-	if(data.determinant() > -0.0000001 && data.determinant() < 0.0000001)
+	if (data.determinant() > -0.0000001 && data.determinant() < 0.0000001)
 	{
 		Mat temp(data);
 		temp.fill(0);
@@ -190,6 +214,100 @@ void Mat::show(int precision)
 		}
 		cout << endl;
 	}
+}
+
+bool Mat::read(string fileName, string type)
+{
+	vector<string> strData;
+	auto fileSize = getFileSize(fileName, strData);
+	this->resize(fileSize.first, fileSize.second);
+//	cout << strData.size() << endl;
+//	for (int i = 0; i < strData.size(); ++i)
+//	{
+////		vector<string> a = split(strData.at(i), ',');
+////		for (int j = 0; j < a.size(); ++j)
+////		{
+////			data(i, j) = stod(a.at(i));
+////		}
+////		a.clear();
+//	}
+	try
+	{
+//		ifstream fin(fileName, ios::in);
+//		string temp;
+//		unsigned int row = 0;
+//		while (!fin.eof())
+//		{
+//			getline(fin, temp);
+//			if (!temp.empty())
+//			{
+//				auto a = split(temp, ',');
+//				for (int i = 0; i < a.size(); ++i)
+//				{
+//					data(row, i) = stod(a.at(i));
+//				}
+//				row++;
+//			}
+//		}
+//		fin.close();
+	}
+	catch (const exception &e)
+	{
+		cout << "Open file error!" << endl;
+		return false;
+	}
+	return true;
+}
+
+bool Mat::save(string fileName, string type)
+{
+	return false;
+}
+
+vector<string> Mat::split(const string &src, const char c)
+{
+	vector<string> strArray;
+	string temp;
+	for (auto i = 0; i<src.size(); ++i)
+	{
+		if (src[i] != c)
+		{
+			temp.append(1, src[i]);
+		}
+		if (src[i] == ',' || i == src.size() - 1)
+		{
+			strArray.push_back(temp);
+			temp = "";
+		}
+	}
+	return strArray;
+}
+
+pair<unsigned, unsigned> Mat::getFileSize(const string &fileName, vector<string> &data)
+{
+	pair<unsigned int, unsigned int> fileSize;
+	ifstream fin(fileName, ios::in);
+	string temp;
+	bool flag = false;
+	unsigned int row = 0;
+	while (!fin.eof())
+	{
+		getline(fin, temp);
+		if (!temp.empty())
+		{
+			data.push_back(temp);
+			row++;
+		}
+		if (!flag)
+		{
+			auto a = split(temp, ',');
+			fileSize.second = a.size();
+			flag = true;
+		}
+	}
+	fileSize.first = row;
+	fin.close();
+	return fileSize;
 }
 
 void Mat::show(Mat& mat, int precision)
@@ -220,7 +338,9 @@ void Mat::show(MatrixXd& data, int precision)
 
 void Mat::test()
 {
-	cout << "æ„é€ ã€ææ„" << endl;
+	cout << "Eigen°æ±¾: " << EIGEN_WORLD_VERSION << "."<< EIGEN_MAJOR_VERSION << "." << EIGEN_MINOR_VERSION << endl;
+
+	cout << "¹¹Ôì¡¢Îö¹¹" << endl;
 	Mat A;
 	A.show();
 	cout << endl;
@@ -229,12 +349,12 @@ void Mat::test()
 	cout << endl;
 	MatrixXd inputXd;
 	inputXd.resize(2, 3);
-	inputXd <<	1, 2, 3,
-				4, 5, 6;
+	inputXd << 1, 2, 3,
+		4, 5, 6;
 	Mat C(inputXd);
 	C.show();
 	cout << endl;
-	vector<vector<double>> vecData{ {1,2,3},{4,5,6},{7,8,10} };
+	vector<vector<double>> vecData{ { 1,2,3 },{ 4,5,6 },{ 7,8,10 } };
 	Mat D(vecData);
 	D.show();
 	cout << endl;
@@ -250,8 +370,8 @@ void Mat::test()
 	E.show();
 	cout << endl;
 
-	cout << "è¿ç®—ç¬¦é‡è½½" << endl;
-	// å•ä¸ªæ˜¯è¡Œçš„å¼€å¤´å…ƒç´ ï¼ŒåŒä¸ªæ˜¯æ•°ç»„ä¸‹æ ‡
+	cout << "ÔËËã·ûÖØÔØ" << endl;
+	// µ¥¸öÊÇĞĞµÄ¿ªÍ·ÔªËØ£¬Ë«¸öÊÇÊı×éÏÂ±ê
 	cout << D(0) << " " << D(1) << " " << D(1, 1) << " " << D(2, 2) << endl << endl;
 	Mat Dcopy;
 	Dcopy.fill(0);
@@ -261,13 +381,20 @@ void Mat::test()
 	Dcopy.show();
 	cout << endl;
 
-	cout << "æ˜¾ç¤ºã€è¯»å–ã€ä¿å­˜" << endl;
+	cout << "ÏÔÊ¾¡¢¶ÁÈ¡¡¢±£´æ" << endl;
 	show(inputXd);
 	cout << endl;
 	show(D);
 	cout << endl;
+	Mat readFile;
+	auto start = clock();
+	readFile.read(R"(D:\mat143708x219.csv)", "csv");
+	auto end = clock();
+	cout << "¶ÁÈ¡ÎÄ¼ş£º" << endl;
+	cout << (end - start) / 1000.0 << " s" << endl;
+//	readFile.show();
 
-	cout << "åŸºæœ¬æ“ä½œ" << endl;
+	cout << "»ù±¾²Ù×÷" << endl;
 	cout << "C.size() " << C.size() << endl;
 	cout << "C.rows() " << C.rows() << endl;
 	cout << "C.cols() " << C.cols() << endl;
@@ -277,9 +404,13 @@ void Mat::test()
 	C.fill(7);
 	C.show();
 
-	cout << "å–æŸè¡ŒæŸåˆ—" << endl;
+	cout << "È¡Ä³ĞĞÄ³ÁĞ" << endl;
+	Mat Drow1 = D.getRow(1);
+	Drow1.show();
+	Mat Dcol2 = D.getCol(2);
+	Dcol2.show();
 
-	cout << "åˆå¹¶çŸ©é˜µ" << endl;
+	cout << "ºÏ²¢¾ØÕó" << endl;
 	Mat F(inputXd);
 	cout << "F.mergeRow(D)" << endl;
 	F.show();
@@ -298,7 +429,7 @@ void Mat::test()
 	C.show();
 	cout << endl;
 
-	cout << "çŸ©é˜µåŸºæœ¬è¿ç®— + - * k* è½¬ç½® é€† è¡Œåˆ—å¼" << endl;
+	cout << "¾ØÕó»ù±¾ÔËËã + - * k* ×ªÖÃ Äæ ĞĞÁĞÊ½" << endl;
 	vector<vector<double>> vecData1{ { 1,2,3 },{ 4,5,6 },{ 7,8,9 } };
 	Mat H(vecData1);
 	H.add(D);
@@ -321,3 +452,6 @@ void Mat::test()
 	cout << endl;
 	cout << H.det() << endl << endl;
 }
+
+
+

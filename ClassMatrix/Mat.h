@@ -7,10 +7,10 @@ using namespace Eigen;
 class Mat
 {
 public:
-	// æš´éœ²æ•°æ®ä»¥æ”¯æŒåŸç”Ÿæ“ä½œ
+	// ±©Â¶Êı¾İÒÔÖ§³ÖÔ­Éú²Ù×÷
 	MatrixXd data;
 
-	// æ„é€ ã€ææ„
+	// ¹¹Ôì¡¢Îö¹¹
 	Mat();
 	Mat(const int row, const int col);
 	explicit Mat(const MatrixXd &matData);
@@ -18,30 +18,36 @@ public:
 	explicit Mat(const vector<vector<double>> &vetData);
 	virtual ~Mat();
 
-	// è¿ç®—ç¬¦é‡è½½
+	// ÔËËã·ûÖØÔØ
 	double operator()(const int i);
 	double operator()(const int i, const int j);
 	Mat& operator=(const Mat& mat_);
 
-	// æ˜¾ç¤ºã€è¯»å–ã€ä¿å­˜
+	// ÏÔÊ¾¡¢¶ÁÈ¡¡¢±£´æ
 	static void show(Mat &mat, int precision = 3);
 	static void show(MatrixXd &data, int precision = 3);
 	void show(int precision = 3);
+	bool read(string fileName, string type);
+	bool save(string fileName, string type);
+	static vector<string> split(const string &src, const char c);
+	static pair<unsigned int, unsigned int> getFileSize(const string &fileName, vector<string> &data);
 
-	// åŸºæœ¬æ“ä½œ
+	// »ù±¾²Ù×÷
 	unsigned int size() const;
 	unsigned int rows() const;
 	unsigned int cols() const;
 	void resize(const int row, const int col);
 	void fill(const double value);
 
-	// å–æŸè¡Œ\æŸåˆ—
+	// È¡Ä³ĞĞ\Ä³ÁĞ
+	Mat getRow(unsigned int row) const;
+	Mat getCol(unsigned int col) const;
 
-	// åˆå¹¶çŸ©é˜µ
+	// ºÏ²¢¾ØÕó
 	bool mergeRow(Mat &addMat);
 	bool mergeCol(Mat &addMat);
 
-	// çŸ©é˜µåŸºæœ¬è¿ç®— + - * k* è½¬ç½® é€† è¡Œåˆ—å¼
+	// ¾ØÕó»ù±¾ÔËËã + - * k* ×ªÖÃ Äæ ĞĞÁĞÊ½
 	bool add(Mat &addMat);
 	bool sub(Mat &addMat);
 	bool mul(Mat &addMat);
@@ -50,8 +56,8 @@ public:
 	Mat inv() const;
 	double det() const;
 
-	// ç»Ÿè®¡ä¿¡æ¯ æœ€å¤§å€¼ã€æœ€å°å€¼ã€å¹³å‡å€¼
+	// Í³¼ÆĞÅÏ¢ ×î´óÖµ¡¢×îĞ¡Öµ¡¢Æ½¾ùÖµ
 
-	// æµ‹è¯•
+	// ²âÊÔ
 	static void test();
 };
